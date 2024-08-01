@@ -77,7 +77,7 @@ export default function Home() {
       formData.append("lyrics", lyrics);
       formData.append("options", JSON.stringify(options));
 
-      const res = await fetch("http://localhost:3000/api/generate", {
+      const res = await fetch("/api/generate", {
         method: "POST",
         body: formData,
       });
