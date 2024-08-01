@@ -22,7 +22,7 @@ export function ColorPicker({ setColor }: ColorPickerProps) {
     <HoverCard open={isPickerOpen} onOpenChange={setIsPickerOpen}>
       <HoverCardTrigger
         tabIndex={0}
-        className="w-full p-2 cursor-pointer text-center font-semibold text-sm border border-input rounded-lg hover:bg-secondary"
+        className="w-full p-2 max-md:py-4 cursor-pointer text-center font-semibold text-sm border border-input rounded-lg hover:bg-secondary"
         onClick={() => setIsPickerOpen(true)}
       >
         Choose color

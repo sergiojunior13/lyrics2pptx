@@ -51,7 +51,7 @@ export function PPTXPreview({
   return (
     <div
       ref={previewRef}
-      className="sticky top-3 self-start aspect-[4/3] flex-1 flex items-center rounded-lg max-w-[418px] overflow-hidden"
+      className="aspect-[4/3] flex-1 flex items-center rounded-lg overflow-hidden shadow-md"
       style={{
         padding: previewScaleComparedToSlideDefaultSize * padding,
         fontWeight: fontBold ? "bold" : "normal",
@@ -70,6 +70,7 @@ export function PPTXPreview({
           WebkitTextStroke: fontBorder
             ? `${previewScaleComparedToSlideDefaultSize * fontBorderWidth}px ${fontBorderColor}`
             : undefined,
+          overflowWrap: "anywhere",
         }}
       >
         {verses[0]}
