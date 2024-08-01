@@ -1,5 +1,6 @@
 import { formSchema } from "@/utils/form-schema";
 import { getSrcFromFile } from "@/utils/getSrcFromFile";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
@@ -7,9 +8,11 @@ export function PPTXPreview({
   lyrics = "Preview",
   bgImg,
   options,
+  watermarkImg,
 }: {
   lyrics: string;
   bgImg?: File | string;
+  watermarkImg?: File;
   options: z.infer<typeof formSchema>["options"];
 }) {
   // This things below are to get the relative values of atributes (such padding, font-size) of the preview of the slide.
@@ -30,13 +33,6 @@ export function PPTXPreview({
 
   const previewScaleComparedToSlideDefaultSize = previewWidth / slideDefaultWidth;
 
-  const [bgSrc, setBgSrc] = useState<string>();
-  const isBgAColor = typeof bgImg == "string";
-
-  bgImg && !isBgAColor && getSrcFromFile(bgImg).then(setBgSrc);
-
-  const verses = lyrics.trim().split("\n\n");
-
   const {
     align,
     fontBold,
@@ -47,11 +43,24 @@ export function PPTXPreview({
     fontSize,
     fontUpperCase,
     padding,
+    watermark,
+    watermarkWidth,
   } = options;
+
+  const [bgSrc, setBgSrc] = useState<string>();
+  const [watermarkImgSrc, setWatermarkImgSrc] = useState<string>();
+
+  const isBgAColor = typeof bgImg == "string";
+
+  bgImg && !isBgAColor && getSrcFromFile(bgImg).then(setBgSrc);
+  watermarkImg && getSrcFromFile(watermarkImg as File).then(setWatermarkImgSrc);
+
+  const verses = lyrics.trim().split("\n\n");
+
   return (
     <div
       ref={previewRef}
-      className="aspect-[4/3] flex-1 flex items-center rounded-lg overflow-hidden shadow-md"
+      className="aspect-[4/3] flex-1 flex items-center rounded-lg overflow-hidden shadow-md relative"
       style={{
         padding: previewScaleComparedToSlideDefaultSize * padding,
         fontWeight: fontBold ? "bold" : "normal",
@@ -75,6 +84,21 @@ export function PPTXPreview({
       >
         {verses[0]}
       </p>
+
+      {watermark && watermarkImg && watermarkImgSrc && (
+        <Image
+          src={watermarkImgSrc}
+          alt="watermark"
+          width={60}
+          height={60}
+          className="absolute h-auto"
+          style={{
+            bottom: padding * previewScaleComparedToSlideDefaultSize,
+            right: padding * previewScaleComparedToSlideDefaultSize,
+            width: previewScaleComparedToSlideDefaultSize * (watermarkWidth as number),
+          }}
+        />
+      )}
     </div>
   );
 }

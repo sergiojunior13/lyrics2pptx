@@ -13,8 +13,13 @@ export const formSchema = z.object({
     fontBorderColor: z.string(),
     fontBorderWidth: z.number(),
     fontBorder: z.boolean(),
+    watermark: z.boolean(),
+    watermarkWidth: z.number().min(50).max(350).optional(),
+    watermarkHeight: z.number().min(50).max(350).optional(),
   }),
   // File is undefined when page is compiling
+  watermarkImg:
+    typeof window === "undefined" ? z.string().optional() : z.instanceof(File).optional(),
   bg:
     typeof window === "undefined"
       ? z.string().optional()

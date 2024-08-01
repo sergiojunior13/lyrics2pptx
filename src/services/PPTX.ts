@@ -14,7 +14,14 @@ export class LyricsPPTX {
     },
   };
 
-  static async generate({ lyrics, options, bg, title, backgroundIsAColor }: LyricsData) {
+  static async generate({
+    lyrics,
+    options,
+    bg,
+    title,
+    backgroundIsAColor,
+    watermarkImg,
+  }: LyricsData) {
     const pptx = new PPTXGenJS();
     pptx.layout = "LAYOUT_4x3";
 
@@ -24,6 +31,16 @@ export class LyricsPPTX {
 
     this.SIZES.textBox.width = this.SIZES.slide.width - options.padding / 96;
     this.SIZES.textBox.height = this.SIZES.slide.height - options.padding / 96;
+
+    const watermarkObj = options.watermark
+      ? {
+          data: ("data:image/png;base64," + watermarkImg) as string,
+          x: this.SIZES.textBox.width - (options.watermarkWidth as number) / 96,
+          y: this.SIZES.textBox.height - (options.watermarkHeight as number) / 96,
+          w: (options.watermarkWidth as number) / 96,
+          h: (options.watermarkHeight as number) / 96,
+        }
+      : undefined;
 
     if (title) {
       const titleSlide = pptx.addSlide();
@@ -35,10 +52,12 @@ export class LyricsPPTX {
 
       titleSlide.slideNumber = {
         x: "95%",
-        y: "94%",
+        y: "4%",
         fontSize: 12,
         color: "#CCCCCC",
       };
+
+      watermarkObj && titleSlide.addImage(watermarkObj);
 
       titleSlide.addText(title, {
         x: this.SIZES.slide.width / 2 - this.SIZES.textBox.width / 2,
@@ -64,10 +83,12 @@ export class LyricsPPTX {
       const slide = pptx.addSlide();
       slide.slideNumber = {
         x: "95%",
-        y: "94%",
+        y: "4%",
         fontSize: 12,
         color: "#CCCCCC",
       };
+
+      watermarkObj && slide.addImage(watermarkObj);
 
       slide.background = {
         data: backgroundIsAColor ? undefined : bg,
@@ -100,10 +121,7 @@ export class LyricsPPTX {
   }
 }
 
-export type LyricsData = {
-  lyrics: string;
-  title?: string;
+export type LyricsData = z.infer<typeof formSchema> & {
   bg: string;
-  options: z.infer<typeof formSchema>["options"];
   backgroundIsAColor: boolean;
 };

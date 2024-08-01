@@ -10,9 +10,8 @@ export async function POST(req: NextRequest) {
     }
 
     let backgroundImg: string | File | undefined = formData.get("bg") || undefined;
+    let watermarkImg: string | File | undefined = formData.get("watermarkImg") || undefined;
     const backgroundIsAColor = typeof backgroundImg === "string";
-
-    console.log(backgroundIsAColor);
 
     if (!backgroundIsAColor) {
       backgroundImg = await convertImageToBase64(backgroundImg as File);
@@ -33,12 +32,17 @@ export async function POST(req: NextRequest) {
     options = JSON.parse(options as string) as any;
     lyrics = lyrics.replaceAll("\r\n", "\n");
 
+    if (watermarkImg) {
+      watermarkImg = await convertImageToBase64(watermarkImg as File);
+    }
+
     const createdSlideBlob = await LyricsPPTX.generate({
       bg: backgroundImg as string,
       lyrics,
       title,
       options,
       backgroundIsAColor,
+      watermarkImg,
     });
 
     return new Response(createdSlideBlob, {

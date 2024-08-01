@@ -41,6 +41,7 @@ import { formSchema } from "@/utils/form-schema";
 import { compressImage } from "@/services/img-compressor";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
+import { getImgSizes } from "@/utils/get-img-sizes";
 
 export default function Home() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -59,20 +60,49 @@ export default function Home() {
         fontSize: 40,
         fontUpperCase: "none",
         padding: 24,
+        watermark: false,
+        watermarkWidth: 80,
       },
     },
   });
 
-  async function onSubmit({ lyrics, options, bg, title }: z.infer<typeof formSchema>) {
+  async function onSubmit({
+    lyrics,
+    options,
+    bg,
+    title,
+    watermarkImg,
+  }: z.infer<typeof formSchema>) {
     try {
+      let watermarkHeight;
+
       const formData = new FormData();
 
       if (bg instanceof File) {
         bg = await compressImage(bg);
       }
 
+      if (options.watermark == true && !watermarkImg) {
+        options.watermark = false;
+      }
+
+      if (options.watermark == false) {
+        delete options["watermarkWidth"];
+      }
+
+      if (options.watermark && watermarkImg) {
+        watermarkImg = await compressImage(watermarkImg as File);
+
+        const imgSizes = await getImgSizes(watermarkImg);
+
+        watermarkHeight = (imgSizes.height / imgSizes.width) * (options.watermarkWidth as number);
+
+        options.watermarkHeight = watermarkHeight;
+      }
+
       title && formData.append("title", title);
       bg && formData.append("bg", bg);
+      options.watermark && formData.append("watermarkImg", watermarkImg as File);
       formData.append("lyrics", lyrics);
       formData.append("options", JSON.stringify(options));
 
@@ -152,7 +182,12 @@ export default function Home() {
           <section className="flex flex-col flex-1">
             <FormItem className="sticky -top-5 z-10">
               <FormLabel>Preview</FormLabel>
-              <PPTXPreview options={options} lyrics={lyrics} bgImg={form.watch("bg") as File} />
+              <PPTXPreview
+                options={options}
+                lyrics={lyrics}
+                bgImg={form.watch("bg") as File}
+                watermarkImg={form.watch("watermarkImg") as File}
+              />
             </FormItem>
 
             <Separator className="my-5" />
@@ -352,6 +387,45 @@ export default function Home() {
                       <AlignJustify />
                     </ToggleGroupItem>
                   </ToggleGroup>
+                </FormItem>
+              )}
+            />
+
+            <Separator className="my-5" />
+
+            <FormField
+              control={form.control}
+              name="options.watermark"
+              render={({ field: { onChange, value } }) => (
+                <FormItem className=" flex flex-col flex-1">
+                  <FormLabel>Watermark</FormLabel>
+
+                  <Switch defaultChecked={value} onCheckedChange={onChange} />
+
+                  {value && (
+                    <>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        className="cursor-pointer"
+                        onChange={e =>
+                          e.target.files && form.setValue("watermarkImg", e.target.files[0])
+                        }
+                      />
+                      <div className="flex gap-3">
+                        <span className="font-medium text-sm">
+                          Width: {form.watch("options.watermarkWidth")}px
+                        </span>
+                        <Slider
+                          defaultValue={[form.watch("options.watermarkWidth") || 80]}
+                          max={350}
+                          step={5}
+                          min={50}
+                          onValueChange={v => form.setValue("options.watermarkWidth", v[0])}
+                        />
+                      </div>
+                    </>
+                  )}
                 </FormItem>
               )}
             />
