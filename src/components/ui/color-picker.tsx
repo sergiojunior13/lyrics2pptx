@@ -1,12 +1,15 @@
 import colors from "tailwindcss/colors";
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
+import { useState } from "react";
 
 type ColorPickerProps = {
   setColor: (color: string) => any;
 };
 
 export function ColorPicker({ setColor }: ColorPickerProps) {
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
   const colorsToChoose: string[] = [];
 
   Object.values(colors).forEach(color => {
@@ -16,8 +19,12 @@ export function ColorPicker({ setColor }: ColorPickerProps) {
   });
 
   return (
-    <HoverCard>
-      <HoverCardTrigger className="w-full p-2 cursor-pointer text-center font-semibold text-sm border border-input rounded-lg hover:bg-secondary">
+    <HoverCard open={isPickerOpen} onOpenChange={setIsPickerOpen}>
+      <HoverCardTrigger
+        tabIndex={0}
+        className="w-full p-2 cursor-pointer text-center font-semibold text-sm border border-input rounded-lg hover:bg-secondary"
+        onClick={() => setIsPickerOpen(true)}
+      >
         Choose color
       </HoverCardTrigger>
 

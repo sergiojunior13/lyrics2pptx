@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PowerPoint Lyrics Generator",
-  description: "Generate PowerPoint lyrics",
+  title: "Lyrics2PPTX: Transform Lyrics Into Presentation File",
+  description: "Generate presentations from lyrics",
 };
 
 export default function RootLayout({

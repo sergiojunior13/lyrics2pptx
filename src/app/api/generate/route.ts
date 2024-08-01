@@ -12,6 +12,8 @@ export async function POST(req: NextRequest) {
     let backgroundImg: string | File | undefined = formData.get("bg") || undefined;
     const backgroundIsAColor = typeof backgroundImg === "string";
 
+    console.log(backgroundIsAColor);
+
     if (!backgroundIsAColor) {
       backgroundImg = await convertImageToBase64(backgroundImg as File);
     }
@@ -39,7 +41,11 @@ export async function POST(req: NextRequest) {
       backgroundIsAColor,
     });
 
-    return new Response(createdSlideBlob);
+    return new Response(createdSlideBlob, {
+      headers: {
+        "Content-Type": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      },
+    });
   } catch (error: any) {
     return createErrorResponse(error?.message || error?.name, 500);
   }

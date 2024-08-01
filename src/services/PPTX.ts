@@ -29,7 +29,6 @@ export class LyricsPPTX {
       const titleSlide = pptx.addSlide();
 
       titleSlide.background = {
-        type: "cover" as "none",
         data: backgroundIsAColor ? undefined : bg,
         color: backgroundIsAColor ? bg : undefined,
       };
@@ -49,7 +48,7 @@ export class LyricsPPTX {
         align: options.align,
         fontSize: options.fontSize + 5,
         color: options.fontColor,
-        bold: options.fontBold,
+        bold: true,
         fontFace: "Arial",
         outline: options.fontBorder
           ? {
@@ -73,7 +72,6 @@ export class LyricsPPTX {
       slide.background = {
         data: backgroundIsAColor ? undefined : bg,
         color: backgroundIsAColor ? bg : undefined,
-        type: "cover" as "none",
       };
 
       slide.addText(verse.trim(), {
@@ -84,7 +82,7 @@ export class LyricsPPTX {
         align: options.align,
         fontSize: options.fontSize,
         color: options.fontColor,
-        bold: true,
+        bold: options.fontBold,
         fontFace: "Arial",
         outline: options.fontBorder
           ? {

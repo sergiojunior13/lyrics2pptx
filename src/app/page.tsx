@@ -112,7 +112,7 @@ export default function Home() {
     <>
       <header className="p-4 bg-foreground flex gap-4 items-center">
         <Image src="/logo.png" alt="logo" width={32} height={40} className="h-full w-auto" />
-        <h1 className="text-2xl font-bold text-background">PowerPoint Lyrics Generator</h1>
+        <h1 className="text-2xl font-bold text-background">Lyrics2PPTX</h1>
       </header>
 
       <Toaster />
