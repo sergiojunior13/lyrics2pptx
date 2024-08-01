@@ -1,4 +1,4 @@
-import { formSchema } from "@/app/page";
+import { formSchema } from "@/utils/form-schema";
 import { getSrcFromFile } from "@/utils/getSrcFromFile";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";

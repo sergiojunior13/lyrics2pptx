@@ -33,33 +33,15 @@ import {
   CaseUpper,
 } from "lucide-react";
 import { formatString as formatStringCase } from "@/utils/formatString";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+
 import { getLyricsAndTitleFromText } from "@/utils/get-lyrics-and-title-from-text";
+import { formSchema } from "@/utils/form-schema";
+
 import { compressImage } from "@/services/img-compressor";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import Image from "next/image";
-
-export const formSchema = z.object({
-  title: z.string().min(1).optional(),
-  lyrics: z.string().min(1).trim(),
-  options: z.object({
-    fontColor: z.string(),
-    fontSize: z.number().min(1),
-    align: z.enum(["left", "center", "right", "justify"]),
-    fontBold: z.boolean(),
-    fontUpperCase: z.enum(["capitalize", "uppercase", "none"]),
-    padding: z.number().min(0),
-    fontBorderColor: z.string(),
-    fontBorderWidth: z.number(),
-    fontBorder: z.boolean(),
-  }),
-  // File is undefined when page is compiling
-  bg:
-    typeof window === "undefined"
-      ? z.string().optional()
-      : z.instanceof(File).optional().or(z.string().optional()),
-});
 
 export default function Home() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);

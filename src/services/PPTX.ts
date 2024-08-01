@@ -1,4 +1,4 @@
-import { formSchema } from "@/app/page";
+import { formSchema } from "@/utils/form-schema";
 import PPTXGenJS from "pptxgenjs";
 import { z } from "zod";
 
