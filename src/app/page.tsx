@@ -91,7 +91,7 @@ export default function Home() {
       }
 
       if (options.watermark && watermarkImg) {
-        watermarkImg = await compressImage(watermarkImg as File);
+        watermarkImg = await compressImage(watermarkImg as File, options.watermarkWidth);
 
         const imgSizes = await getImgSizes(watermarkImg);
 
