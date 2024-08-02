@@ -9,6 +9,7 @@ export const formSchema = z.object({
     align: z.enum(["left", "center", "right", "justify"]),
     fontBold: z.boolean(),
     fontUpperCase: z.enum(["capitalize", "uppercase", "none"]),
+    lineHeight: z.number().min(0.1).max(15),
     padding: z.number().min(0),
     fontBorderColor: z.string(),
     fontBorderWidth: z.number(),

@@ -45,6 +45,7 @@ export function PPTXPreview({
     padding,
     watermark,
     watermarkWidth,
+    lineHeight,
   } = options;
 
   const [bgSrc, setBgSrc] = useState<string>();
@@ -80,6 +81,7 @@ export function PPTXPreview({
             ? `${previewScaleComparedToSlideDefaultSize * fontBorderWidth}px ${fontBorderColor}`
             : undefined,
           overflowWrap: "anywhere",
+          lineHeight,
         }}
       >
         {verses[0]}

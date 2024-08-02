@@ -1,4 +1,5 @@
 import { formSchema } from "@/utils/form-schema";
+import { UnitsConverter } from "@/utils/units-format";
 import PPTXGenJS from "pptxgenjs";
 import { z } from "zod";
 
@@ -29,16 +30,26 @@ export class LyricsPPTX {
 
     const verses = lyrics.split("\n\n");
 
-    this.SIZES.textBox.width = this.SIZES.slide.width - options.padding / 96;
-    this.SIZES.textBox.height = this.SIZES.slide.height - options.padding / 96;
+    options.lineHeight = UnitsConverter.pxToPt(options.lineHeight * options.fontSize);
+    options.fontSize = UnitsConverter.pxToPt(options.fontSize);
+    options.fontBorderWidth = UnitsConverter.pxToPt(options.fontBorderWidth);
+    options.padding = UnitsConverter.pxToInches(options.padding);
+
+    if (options.watermarkWidth && options.watermarkHeight) {
+      options.watermarkWidth = UnitsConverter.pxToInches(options.watermarkWidth);
+      options.watermarkHeight = UnitsConverter.pxToInches(options.watermarkHeight);
+    }
+
+    this.SIZES.textBox.width = this.SIZES.slide.width - options.padding;
+    this.SIZES.textBox.height = this.SIZES.slide.height - options.padding;
 
     const watermarkObj = options.watermark
       ? {
           data: ("data:image/png;base64," + watermarkImg) as string,
-          x: this.SIZES.textBox.width - (options.watermarkWidth as number) / 96,
-          y: this.SIZES.textBox.height - (options.watermarkHeight as number) / 96,
-          w: (options.watermarkWidth as number) / 96,
-          h: (options.watermarkHeight as number) / 96,
+          x: this.SIZES.textBox.width - (options.watermarkWidth as number),
+          y: this.SIZES.textBox.height - (options.watermarkHeight as number),
+          w: options.watermarkWidth as number,
+          h: options.watermarkHeight as number,
         }
       : undefined;
 
@@ -66,6 +77,7 @@ export class LyricsPPTX {
         h: this.SIZES.textBox.height,
         align: options.align,
         fontSize: options.fontSize + 5,
+        lineSpacing: options.lineHeight + 5,
         color: options.fontColor,
         bold: true,
         fontFace: "Arial",
@@ -102,6 +114,7 @@ export class LyricsPPTX {
         h: this.SIZES.textBox.height,
         align: options.align,
         fontSize: options.fontSize,
+        lineSpacing: options.lineHeight,
         color: options.fontColor,
         bold: options.fontBold,
         fontFace: "Arial",

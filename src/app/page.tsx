@@ -49,19 +49,20 @@ export default function Home() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bg: "#18181b",
+      bg: "#18181B",
       options: {
         align: "center",
-        fontBold: false,
+        fontBold: true,
         fontBorder: true,
-        fontBorderColor: "#ffff00",
+        fontBorderColor: "#000000",
         fontBorderWidth: 1,
-        fontColor: "#ffffff",
+        fontColor: "#FFFF00",
         fontSize: 40,
         fontUpperCase: "none",
-        padding: 24,
+        padding: 32,
         watermark: false,
         watermarkWidth: 80,
+        lineHeight: 1,
       },
     },
   });
@@ -304,6 +305,28 @@ export default function Home() {
                       max={150}
                       step={1}
                       min={1}
+                      onValueChange={v => onChange(v[0])}
+                    />
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <Separator className="my-5" />
+
+            <FormField
+              control={form.control}
+              name="options.lineHeight"
+              render={({ field: { onChange, value } }) => (
+                <FormItem className="flex flex-col flex-1">
+                  <FormLabel>Line height</FormLabel>
+                  <div className="flex gap-3">
+                    <span className="font-medium text-sm">{value.toFixed(1)}</span>
+                    <Slider
+                      defaultValue={[value]}
+                      max={15}
+                      step={0.2}
+                      min={0.2}
                       onValueChange={v => onChange(v[0])}
                     />
                   </div>
