@@ -58,6 +58,7 @@ export const metadata: Metadata = {
   other: {
     "msapplication-TileColor": "#ffffff",
     "theme-color": "#ffffff",
+    "google-site-verification": "WHBzCyk3GwE19xKypS4vpBRnwzNSBisTBc_85bTNjNU",
   },
   icons: {
     other: [
