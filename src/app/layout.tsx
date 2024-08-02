@@ -12,7 +12,7 @@ const url = process.env.URL || "https://lyrics2pptx.vercel.app";
 const { title, images, description } = {
   title: "Lyrics2PPTX: Convert Song Lyrics to PPTX Presentations",
   description:
-    "Effortlessly convert song lyrics into PowerPoint presentations with Lyrics2PPTX. Ideal for churches, musicians, teachers, and more. Create personalized PPTX slides from your favorite lyrics. Try it now!",
+    "Effortlessly convert song lyrics into PowerPoint presentations. Ideal for churches and musicians. Create personalized PPTX slides from your lyrics.",
   images: [
     {
       url: `${url}/site-shot.png`,
