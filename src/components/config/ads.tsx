@@ -10,7 +10,7 @@ export function Ads() {
         strategy="beforeInteractive"
       />
 
-      <Script data-cfasync="false" src="/sw.js" />
+      <script data-cfasync="false" src="/sw.js" />
     </>
   );
 }
