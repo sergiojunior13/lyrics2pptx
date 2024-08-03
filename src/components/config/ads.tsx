@@ -9,6 +9,8 @@ export function Ads() {
         data-cfasync="false"
         strategy="beforeInteractive"
       />
+
+      <Script data-cfasync="false" src="/sw.js" />
     </>
   );
 }
