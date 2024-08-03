@@ -60,6 +60,7 @@ export const metadata: Metadata = {
     "msapplication-TileColor": "#ffffff",
     "theme-color": "#ffffff",
     "google-site-verification": "WHBzCyk3GwE19xKypS4vpBRnwzNSBisTBc_85bTNjNU",
+    "admaven-placement": "BrHY7qTg5",
   },
   icons: {
     other: [
