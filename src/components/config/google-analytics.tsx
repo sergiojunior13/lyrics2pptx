@@ -7,11 +7,11 @@ export function GoogleAnalytics() {
   return (
     <>
       <Script
-        strategy="lazyOnload"
+        strategy="beforeInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_TAG}`}
       />
 
-      <Script id="" strategy="lazyOnload">
+      <Script id="" strategy="beforeInteractive">
         {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}

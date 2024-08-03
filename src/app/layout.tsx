@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import { GoogleAnalytics } from "@/components/config/google-analytics";
+import { Ads } from "@/components/config/ads";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -78,7 +79,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleAnalytics />
+      <head>
+        <GoogleAnalytics />
+        <Ads />
+      </head>
 
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <header className="p-4 bg-foreground flex gap-4 items-center">
