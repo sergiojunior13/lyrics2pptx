@@ -78,7 +78,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleAnalytics />
+      <head>
+        <GoogleAnalytics />
+      </head>
 
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <header className="p-4 bg-foreground flex gap-4 items-center">
